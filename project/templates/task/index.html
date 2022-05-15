@@ -1,0 +1,82 @@
+{% extends "application.html" %}
+
+{% block html_attribs %} lang="pt-BR" {% endblock %}
+
+{% block title %}Tasks {% endblock %}
+
+{% block content %}
+<div class="container">
+   <div class="page-header">
+      <h1 class="text-center text-primary">ToDo: Never forget your duties</h1>
+   </div>
+   {% if tasks|length < 1 %} <h4 class="text-center text-warning">There are no tasks. Create one below!</h4>
+      {% else %}
+      <table class="table table-striped">
+         <thead>
+            <tr>
+               <th>Description</th>
+               <th>Category</th>
+               <th>Status</th>
+               <th>Expected hours</th>
+               <th>Expected performed</th>
+               <th>Created</th>
+               <th>Actions</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for task in tasks %}
+            <tr>
+               <td class="align-middle">{{ task.description }}</td>
+               <td class="align-middle">{{ task.category.description }}</td>
+               <td class="align-middle">{{ task.status }}</td>
+               <td class="align-middle">{{ task.expect_hours }}</td>
+               <td class="align-middle">{{ task.expect_performed }}</td>
+               <td class="align-middle">{{ task.date_created.date() }}</td>
+               <td class="align-middle actions">
+                  <a class="btn btn-success" href="{{ url_for('main.task_update',id=task.id) }}">Update</a> |
+                  <a class="btn btn-danger" href="{{ url_for('main.task_delete',id=task.id) }}">Delete</a>
+               </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+      {% endif %}
+
+      <form class="form" action="{{ url_for('main.task_index') }}" method="POST">
+         <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" name="description" id="description" required>
+         </div>
+         <div class="form-group">
+            <label for="category_id">Category</label>
+            <select name="category_id" id="category_id" class="form-control" required >
+               {%  for category in categories  %}
+                  <option value="{{ category.id }}">{{ category.description }}</option>
+               {% endfor %}
+         </select>
+         </div>  
+         <div class="form-group">
+            <label for="status">Status</label>
+            <select name="status" id="status" class="form-control" required>
+               <option>A Fazer</option>
+               <option>Fazendo</option>
+               <option>Feita</option>
+            </select>
+         </div>
+         <div class="form-group">
+            <label for="expect_hours">Expected hours</label>
+            <input type="number" class="form-control" name="expect_hours" id="expect_hours" required>
+         </div>
+         <div class="form-group">
+            <label for="expect_performed">Expected performed</label>
+            <input type="number" class="form-control" name="expect_performed" id="expect_performed">
+         </div>     
+         <div class="form-group">    
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Add</button>
+         </div>   
+         <div class="form-group">    
+            <a class="btn btn-danger btn-lg btn-block" href="{{ url_for('main.home_index')}}">Back</a>
+         </div>            
+      </form>
+</div>
+{% endblock %}

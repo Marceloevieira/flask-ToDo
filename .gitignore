@@ -1,0 +1,14 @@
+
+.vscode
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+**/__pycache__
+
+# Virtual environment.
+.venv/
+venv/
+env/
+
+# Backup files.
+*.*~

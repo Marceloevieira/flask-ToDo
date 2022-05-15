@@ -1,0 +1,50 @@
+{% extends "application.html" %}
+
+{% block html_attribs %} lang="pt-BR" {% endblock %}
+
+{% block title %}Tasks{% endblock %}
+
+{% block content %}
+<div class="container">
+   <div class="page-header">
+      <h1 class="text-center text-primary">Update Task</h1>
+   </div>
+
+   <form class="form" action="{{ url_for('main.task_update', id=task.id) }}" method="POST">
+      <div class="form-group">
+         <label for="description">Description</label>
+         <input type="text" class="form-control" name="description" id="description" value="{{task.description}}" required>
+      </div>
+      <div class="form-group">
+         <label for="category">Category</label>
+         <select name="category_id" id="category_id" class="form-control" required>
+               {%  for category in categories  %}
+                  <option value="{{ category.id }}" {{ "selected" if task.category_id == category.id }} >{{ category.description }}</option>
+               {% endfor %}
+         </select>
+      </div>      
+      <div class="form-group">
+         <label for="status">Status</label>
+         <select name="status" id="status" class="form-control" required>
+            <option {{ "selected" if task.status == "A Fazer" }}>A Fazer</option>
+            <option {{ "selected" if task.status == "Fazendo" }}>Fazendo</option>
+            <option {{ "selected" if task.status == "Feita" }}>Feita</option>
+         </select>
+      </div>
+      <div class="form-group">
+         <label for="expect_hours">Expected hours</label>
+         <input type="text" class="form-control" name="expect_hours" id="expect_hours" value="{{task.expect_hours}}" required>
+      </div>
+      <div class="form-group">
+         <label for="expect_performed">Expected performed</label>
+         <input type="number" class="form-control" name="expect_performed" id="expect_performed" value="{{task.expect_performed}}" >
+      </div>     
+      <div class="form-group">    
+         <button type="submit" class="btn btn-primary btn-lg btn-block">Update</button>
+      </div>   
+      <div class="form-group">    
+         <a class="btn btn-danger btn-lg btn-block" href="{{ url_for('main.task_index') }}">Cancel</a>
+      </div>            
+   </form>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "application.html" %}
+
+{% block content %}
+<div class="container-fluid h-100 text-center signin">
+    <form class="form-signin" method="POST" action="{{ url_for('auth.signup') }}">
+      <img class="mb-4" src="https://getbootstrap.com/docs/4.6/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Sign up</h1>
+      <label for="email" class="sr-only">Email address</label>
+      <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required="" autofocus="">
+      <label for="name" class="sr-only">name</label>
+      <input type="text" id="name" name="name" class="form-control" placeholder="name" required="">
+      <label for="password" class="sr-only">Password</label>
+      <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+      <a class="btn btn-lg btn-danger btn-block" href="{{ url_for('auth.signin') }}">Sign in</a>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          <div  class="alert alert-danger mt-3" role="alert">
+              {{ messages[0] }}
+          </div>
+      {% endif %}
+      {% endwith %}   
+    </form>
+</div>
+{% endblock %}
